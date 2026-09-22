@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jaiho Tasdik</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:#001c17;
+}
+
+/* LOADING PAGE */
+#loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%,
+    #91ff00 0,
+    #38b900 18%,
+    #087317 45%,
+    #001408 100%);
+}
+
+/* honeycomb */
+#loader:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.35;
+
+  background-image:
+  linear-gradient(30deg,#fff 12%,transparent 12.5%,
+  transparent 87%,#fff 87.5%,#fff),
+  linear-gradient(150deg,#fff 12%,transparent 12.5%,
+  transparent 87%,#fff 87.5%,#fff);
+
+  background-size:55px 95px;
+}
+
+/* centre light */
+.light{
+  position:absolute;
+  left:50%;
+  top:-10%;
+  transform:translateX(-50%);
+  width:280px;
+  height:120%;
+  background:#9cff00;
+  opacity:.28;
+  filter:blur(45px);
+}
+
+/* hourglass */
+.shape{
+  position:absolute;
+  inset:0 5%;
+  border-left:5px solid #9cff25;
+  border-right:5px solid #9cff25;
+
+  clip-path:polygon(
+    0 0,100% 0,
+    68% 50%,
+    100% 100%,0 100%,
+    32% 50%
+  );
+
+  background:rgba(0,80,10,.35);
+}
+
+/* content */
+.loaderContent{
+  position:relative;
+  z-index:3;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.help{
+  position:absolute;
+  right:18px;
+  top:18px;
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  background:#9cff19;
+  color:#075d17;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:28px;
+  font-weight:bold;
+
+  box-shadow:0 0 20px #8cff00;
+}
+
+.logo{
+  margin-top:130px;
+  text-align:center;
+}
+
+.jaiho{
+  color:#ffe43a;
+  font-size:58px;
+  font-weight:1000;
+  letter-spacing:-4px;
+
+  text-shadow:
+    0 5px #a94e00,
+    0 8px 10px #000,
+    0 0 20px #ffff00;
+}
+
+.tasdik{
+  margin-top:5px;
+
+  padding:8px 27px;
+
+  border-radius:30px;
+
+  border:5px solid #d7ffc8;
+
+  background:linear-gradient(
+    #fff,
+    #7cff62,
+    #15942b
+  );
+
+  color:#075d19;
+
+  font-size:35px;
+  font-weight:1000;
+  letter-spacing:4px;
+
+  box-shadow:
+    inset 0 0 12px white,
+    0 5px 12px #003900;
+}
+
+.tagline{
+  margin-top:12px;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  text-shadow:2px 2px 4px #003000;
+}
+
+/* machines */
+.machines{
+  position:absolute;
+  bottom:72px;
+
+  width:90%;
+  height:380px;
+
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+
+.machine{
+  background:linear-gradient(
+    90deg,
+    #032f12,
+    #16a936,
+    #053713
+  );
+
+  border:4px solid #10d9ff;
+  border-radius:20px;
+
+  box-shadow:
+    0 0 25px #00eaff,
+    inset 0 0 20px #9cff00;
+}
+
+.side{
+  width:28%;
+  height:250px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transform:rotate(-9deg);
+}
+
+.side.right{
+  transform:rotate(9deg);
+}
+
+.side span{
+  color:white;
+  font-size:23px;
+  font-weight:1000;
+  text-align:center;
+  text-shadow:2px 3px #003800;
+}
+
+.middle{
+  width:45%;
+  height:330px;
+  z-index:2;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.jackpot{
+  margin-top:15px;
+  padding:10px;
+
+  border:3px solid #26eaff;
+  border-radius:10px;
+
+  background:#063d20;
+  color:#ffe22d;
+
+  font-size:19px;
+  font-weight:bold;
+}
+
+.play{
+  margin-top:60px;
+  color:#8dff54;
+
+  font-size:37px;
+  font-weight:1000;
+  text-align:center;
+
+  text-shadow:
+    3px 3px #003d00,
+    0 0 15px #aaff00;
+}
+
+.sevens{
+  margin-top:15px;
+  font-size:42px;
+}
+
+/* progress */
+.progressBox{
+  position:absolute;
+  bottom:25px;
+
+  width:84%;
+  height:43px;
+
+  background:#111;
+  border:3px solid #333;
+  border-radius:25px;
+
+  overflow:hidden;
+}
+
+.progress{
+  height:100%;
+  width:5%;
+
+  background:linear-gradient(
+    90deg,
+    #00d900,
+    #8cff00,
+    #00d900
+  );
+
+  transition:.08s linear;
+}
+
+.percent{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  color:white;
+  font-size:24px;
+  font-weight:bold;
+
+  text-shadow:2px 2px #000;
+}
+
+@media(max-width:500px){
+
+  .logo{
+    margin-top:120px;
+  }
+
+  .jaiho{
+    font-size:49px;
+  }
+
+  .tasdik{
+    font-size:29px;
+  }
+
+  .tagline{
+    font-size:14px;
+  }
+
+  .machines{
+    transform:scale(.88);
+    bottom:70px;
+  }
+}
+
+@media(max-height:700px){
+
+  .logo{
+    margin-top:70px;
+  }
+
+  .machines{
+    transform:scale(.68);
+    bottom:50px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+
+  <div class="light"></div>
+  <div class="shape"></div>
+
+  <div class="loaderContent">
+
+    <div class="help">?</div>
+
+    <div class="logo">
+      <div class="jaiho">JAIHO</div>
+
+      <div class="tasdik">
+        TASDIK
+      </div>
+
+      <div class="tagline">
+        PLAY • FUN • REWARDS
+      </div>
+    </div>
+
+    <div class="machines">
+
+      <div class="machine side">
+        <span>WIN<br>BIG</span>
+      </div>
+
+      <div class="machine middle">
+
+        <div class="jackpot">
+          👑 JACKPOT 👑
+        </div>
+
+        <div class="play">
+          PLAY<br>NOW
+        </div>
+
+        <div class="sevens">
+          🎰 7️⃣7️⃣7️⃣
+        </div>
+
+      </div>
+
+      <div class="machine side right">
+        <span>WIN<br>BIG</span>
+      </div>
+
+    </div>
+
+    <div class="progressBox">
+
+      <div class="progress" id="progress"></div>
+
+      <div class="percent" id="percent">
+        5%
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+let value = 5;
+
+let progress = document.getElementById("progress");
+let percent = document.getElementById("percent");
+
+let timer = setInterval(function(){
+
+  value++;
+
+  progress.style.width = value + "%";
+  percent.innerText = value + "%";
+
+  if(value >= 100){
+
+    clearInterval(timer);
+
+    setTimeout(function(){
+      window.location.href = "home.html";
+    },300);
+
+  }
+
+},50);
+</script>
+
+</body>
+  </html>
