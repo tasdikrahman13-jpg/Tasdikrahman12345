@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Jaiho Tasdik</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  background:
+    radial-gradient(circle at top,#087b68,#002c27 45%,#001c1b);
+  color:white;
+  font-family:Arial,sans-serif;
+  padding-bottom:90px;
+}
+
+/* HEADER */
+
+.header{
+  height:105px;
+
+  background:#07554b;
+
+  border-bottom:3px solid #e4c22b;
+
+  display:flex;
+  align-items:center;
+
+  padding:15px 20px;
+
+  gap:15px;
+}
+
+.logoCircle{
+  width:64px;
+  height:64px;
+
+  border-radius:50%;
+
+  border:3px solid #e4d14c;
+
+  background:#10b58e;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  font-size:27px;
+  font-weight:bold;
+}
+
+.brand{
+  flex:1;
+}
+
+.brand h1{
+  font-size:24px;
+}
+
+.brand small{
+  color:#a8ded1;
+}
+
+.coins{
+  background:#003d36;
+
+  border-radius:30px;
+
+  padding:10px 15px;
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+.add{
+  background:#14c88e;
+  border:0;
+
+  width:44px;
+  height:44px;
+
+  border-radius:50%;
+
+  color:white;
+  font-size:27px;
+}
+
+.menu{
+  width:48px;
+  height:48px;
+
+  border:0;
+  border-radius:50%;
+
+  background:#14c88e;
+
+  color:white;
+  font-size:25px;
+}
+
+/* CONTENT */
+
+.content{
+  padding:25px;
+}
+
+.welcome{
+  border:3px solid #159d83;
+
+  border-radius:28px;
+
+  padding:28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(4,91,77,.9),
+      rgba(0,43,39,.95)
+    );
+
+  box-shadow:
+    0 0 15px rgba(0,255,190,.2);
+}
+
+.welcome small{
+  color:#c9e5de;
+  font-size:17px;
+}
+
+.welcome h2{
+  margin-top:15px;
+  font-size:34px;
+}
+
+.welcome p{
+  margin-top:25px;
+
+  color:#c2ded8;
+
+  font-size:20px;
+  line-height:1.4;
+}
+
+.playButton{
+  margin-top:25px;
+
+  padding:17px 25px;
+
+  border:0;
+  border-radius:35px;
+
+  background:#12c78d;
+
+  color:white;
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* GAMES */
+
+.title{
+  margin:38px 0 20px;
+  font-size:34px;
+}
+
+.games{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:#07554b;
+
+  border:2px solid #147c6e;
+
+  border-radius:25px;
+
+  padding:15px;
+}
+
+.gameImage{
+  height:195px;
+
+  border-radius:17px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:35px;
+  text-align:center;
+}
+
+.dragon{
+  background:linear-gradient(
+    135deg,
+    #164b91,
+    #743820
+  );
+}
+
+.slots{
+  background:#754500;
+}
+
+.wheel{
+  background:#41277c;
+}
+
+.dice{
+  background:#14564b;
+}
+
+.card h3{
+  margin:18px 0;
+  font-size:22px;
+}
+
+.playCard{
+  width:100%;
+
+  border:0;
+  border-radius:30px;
+
+  padding:15px;
+
+  background:#13c78e;
+
+  color:white;
+
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* BOTTOM NAV */
+
+.bottom{
+  position:fixed;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:92px;
+
+  background:#003d38;
+
+  border-top:2px solid #d6b52a;
+
+  display:flex;
+
+  justify-content:space-around;
+
+  align-items:center;
+
+  z-index:100;
+}
+
+.nav{
+  text-align:center;
+
+  color:#7cd8ca;
+
+  font-size:13px;
+}
+
+.navIcon{
+  font-size:30px;
+  display:block;
+  margin-bottom:4px;
+}
+
+.nav.active{
+  color:#fff;
+}
+
+@media(max-width:500px){
+
+  .header{
+    padding:12px;
+  }
+
+  .brand h1{
+    font-size:21px;
+  }
+
+  .coins{
+    font-size:15px;
+    padding:8px;
+  }
+
+  .content{
+    padding:18px;
+  }
+
+  .welcome{
+    padding:23px;
+  }
+
+  .welcome h2{
+    font-size:30px;
+  }
+
+  .welcome p{
+    font-size:18px;
+  }
+
+  .gameImage{
+    height:150px;
+    font-size:28px;
+  }
+
+  .title{
+    font-size:30px;
+  }
+
+  .games{
+    gap:12px;
+  }
+
+  .card{
+    padding:10px;
+  }
+
+  .card h3{
+    font-size:18px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+
+  <div class="logoCircle">
+    <span>J</span>
+    <span>T</span>
+  </div>
+
+  <div class="brand">
+    <h1>Jaiho Tasdik</h1>
+    <small>Virtual Demo</small>
+  </div>
+
+  <div class="coins">
+    🪙 <span id="coins">850</span>
+  </div>
+
+  <button class="add" onclick="addCoins()">+</button>
+
+  <button class="menu"
+  onclick="alert('Menu opened')">
+    ☰
+  </button>
+
+</header>
+
+
+<main class="content">
+
+  <!-- WELCOME -->
+
+  <section class="welcome">
+
+    <small>WELCOME</small>
+
+    <h2>Play & Practice</h2>
+
+    <p>
+      Mobile-first game interface
+      using virtual coins only.
+      🐉 VS 🐯
+    </p>
+
+    <button
+      class="playButton"
+      onclick="playGame()">
+
+      PLAY DRAGON VS TIGER
+
+    </button>
+
+  </section>
+
+
+  <!-- POPULAR GAMES -->
+
+  <h2 class="title">
+    Popular Games
+  </h2>
+
+
+  <section class="games">
+
+    <div class="card">
+
+      <div class="gameImage dragon">
+        🐉 &nbsp; VS &nbsp; 🐯
+      </div>
+
+      <h3>
+        Dragon VS Tiger
+      </h3>
+
+      <button
+        class="playCard"
+        onclick="playGame()">
+
+        Play Now
+
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="gameImage slots">
+        🎰 777
+      </div>
+
+      <h3>
+        777 Slots
+      </h3>
+
+      <button
+        class="playCard"
+        onclick="playGame()">
+
+        Play
+
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="gameImage wheel">
+        🎡
+      </div>
+
+      <h3>
+        Lucky Wheel
+      </h3>
+
+      <button
+        class="playCard"
+        onclick="spinWheel()">
+
+        Spin
+
+      </button>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="gameImage dice">
+        🎲
+      </div>
+
+      <h3>
+        Dice Game
+      </h3>
+
+      <button
+        class="playCard"
+        onclick="playGame()">
+
+        Play
+
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom">
+
+  <div class="nav active">
+    <span class="navIcon">🏦</span>
+    Bank
+  </div>
+
+  <div class="nav">
+    <span class="navIcon">🎰</span>
+    Game
+  </div>
+
+  <div class="nav">
+    <span class="navIcon">🎡</span>
+    Lucky Wheel
+  </div>
+
+  <div class="nav">
+    <span class="navIcon">🪙</span>
+    Refer & Earn
+  </div>
+
+  <div class="nav">
+    <span class="navIcon">🎁</span>
+    Events
+  </div>
+
+</nav>
+
+
+<script>
+
+let coins = 850;
+
+function addCoins(){
+
+  coins += 100;
+
+  document.getElementById("coins")
+    .innerText = coins;
+
+}
+
+function playGame(){
+
+  alert(
+    "Demo game opened!\n\nVirtual coins only."
+  );
+
+}
+
+function spinWheel(){
+
+  alert(
+    "Lucky Wheel demo opened!\n\nVirtual coins only."
+  );
+
+}
+
+</script>
+
+</body>
+  </html>
