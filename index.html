@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Tasdik Runner 3D</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101827;font-family:Arial,sans-serif;touch-action:none}
+#game{width:100%;height:100%;display:block}
+#hud{position:fixed;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;color:white;font-weight:800;font-size:18px;z-index:3;text-shadow:0 2px 3px #000}
+#menu{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:5;background:linear-gradient(#07111dcc,#07111d88)}
+.card{width:min(88vw,360px);padding:28px 22px;border-radius:24px;text-align:center;background:#0d1b2ddd;color:white;box-shadow:0 15px 50px #0008}
+h1{margin:0 0 8px;font-size:40px;color:#ffd43b;text-shadow:0 3px #b36b00}
+p{opacity:.9}.btn{border:0;border-radius:14px;padding:14px 28px;font-size:18px;font-weight:800;background:#35d05b;color:#08210d;min-width:180px}
+#hint{font-size:13px;margin-top:15px;opacity:.7}
+.hidden{display:none!important}
+#touch{position:fixed;left:0;right:0;bottom:15px;display:flex;justify-content:space-around;z-index:4;pointer-events:none}
+.touchbtn{pointer-events:auto;width:64px;height:54px;border:0;border-radius:16px;background:#10243dcc;color:#fff;font-size:25px;font-weight:bold}
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="hud"><span id="score">Score: 0</span><span id="coins">Coins: 0</span></div>
+<div id="menu"><div class="card">
+<h1>TASDIK RUNNER</h1><p>3D Endless Runner</p>
+<button class="btn" id="play">TAP TO PLAY</button>
+<div id="hint">Swipe ◀ ▶ to change lanes • Swipe ↑ to jump • Swipe ↓ to slide</div>
+</div></div>
+<div id="touch">
+<button class="touchbtn" data-a="left">◀</button>
+<button class="touchbtn" data-a="jump">▲</button>
+<button class="touchbtn" data-a="right">▶</button>
+<button class="touchbtn" data-a="slide">▼</button>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+const canvas=document.querySelector('#game');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true;
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x75cfff);
+scene.fog=new THREE.Fog(0x75cfff,35,115);
+
+const camera=new THREE.PerspectiveCamera(60,1,.1,180);
+camera.position.set(0,5.2,9);
+camera.lookAt(0,1,-20);
+
+scene.add(new THREE.HemisphereLight(0xffffff,0x526070,2.2));
+const sun=new THREE.DirectionalLight(0xffffff,2.3); sun.position.set(10,18,8); sun.castShadow=true; scene.add(sun);
+
+const lanes=[-3,0,3], player={lane:1,y:1,vy:0,slide:0};
+let running=false, score=0, coins=0, speed=.42, distance=0;
+const world=[], obstacles=[], coinObjs=[];
+
+function box(w,h,d,color,x,y,z){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial({color}));
+ m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);world.push(m);return m;
+}
+function makeTrack(){
+ box(13,.25,160,0x454545,0,0,-55);
+ for(const x of lanes) box(.18,.05,160,0xffffff,x,0.16,-55);
+ for(let z=5;z>-125;z-=8){
+   box(0.18,.2,8,0x303030,-3.9,.15,z);
+   box(0.18,.2,8,0x303030,3.9,.15,z);
+   box(8,.12,.18,0x222222,0,.2,z);
+ }
+ // simple city blocks
+ for(let z=0;z>-125;z-=12){
+   const h=3+Math.random()*9;
+   box(5,h,8,0x6b7890,-8,h/2,z-2);
+   box(5,h*.8,8,0x8c6d64,8,h*.4,z-2);
+ }
+}
+makeTrack();
+
+const playerGroup=new THREE.Group(); scene.add(playerGroup);
+const body=box(.95,1.25,.65,0x151515,0,1.0,0);
+const head= new THREE.Mesh(new THREE.SphereGeometry(.38,18,14),new THREE.MeshStandardMaterial({color:0xc98f62}));
+head.position.set(0,1.85,0);head.castShadow=true;playerGroup.add(head);
+const cap= new THREE.Mesh(new THREE.CylinderGeometry(.4,.42,.16,16),new THREE.MeshStandardMaterial({color:0x111111}));
+cap.position.set(0,2.15,0);playerGroup.add(cap);
+const leg1=box(.28,.75,.32,0x202a38,-.25,.38,0), leg2=box(.28,.75,.32,0x202a38,.25,.38,0);
+const shoe1=box(.35,.18,.58,0xeeeeee,-.25,.03,-.08), shoe2=box(.35,.18,.58,0xeeeeee,.25,.03,-.08);
+playerGroup.add(body,leg1,leg2,shoe1,shoe2);
+
+function spawnObstacle(){
+ const lane=Math.floor(Math.random()*3), z=-75;
+ const type=Math.random()<.65?'block':'train';
+ const o= type==='train' ? box(2.5,2.7,5,0xb22b35,lanes[lane],1.35,z) : box(2.2,1.3,1.5,0xd23c32,lanes[lane],.65,z);
+ o.userData={type,lane};
+ obstacles.push(o);
+}
+function spawnCoin(){
+ const lane=Math.floor(Math.random()*3), z=-70;
+ const c=new THREE.Mesh(new THREE.TorusGeometry(.34,.11,10,20),new THREE.MeshStandardMaterial({color:0xffc928,metalness:.5,roughness:.25}));
+ c.rotation.x=Math.PI/2;c.position.set(lanes[lane],1.25,z);c.castShadow=true;scene.add(c);coinObjs.push(c);
+}
+
+let spawnT=0,coinT=0;
+function moveLane(dir){player.lane=Math.max(0,Math.min(2,player.lane+dir));}
+function jump(){if(player.y<=1.01){player.vy=.24;}}
+function slide(){if(player.y<=1.01)player.slide=.5;}
+
+function reset(){
+ obstacles.forEach(o=>scene.remove(o));obstacles.length=0;
+ coinObjs.forEach(c=>scene.remove(c));coinObjs.length=0;
+ player.lane=1;player.y=1;player.vy=0;player.slide=0;
+ score=0;coins=0;speed=.42;distance=0;spawnT=0;coinT=0;
+}
+function start(){reset();running=true;document.querySelector('#menu').classList.add('hidden');}
+function gameOver(){running=false;document.querySelector('#menu').classList.remove('hidden');document.querySelector('.card p').textContent=`Game Over • Score ${Math.floor(score)} • Coins ${coins}`;document.querySelector('#play').textContent='RUN AGAIN';}
+
+document.querySelector('#play').onclick=start;
+document.querySelectorAll('.touchbtn').forEach(b=>b.addEventListener('pointerdown',()=>{const a=b.dataset.a;if(a==='left')moveLane(-1);if(a==='right')moveLane(1);if(a==='jump')jump();if(a==='slide')slide();}));
+
+let sx=0,sy=0;
+addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
+addEventListener('pointerup',e=>{
+ const dx=e.clientX-sx,dy=e.clientY-sy;
+ if(Math.max(Math.abs(dx),Math.abs(dy))<35)return;
+ if(Math.abs(dx)>Math.abs(dy))moveLane(dx>0?1:-1);else if(dy<0)jump();else slide();
+});
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a')moveLane(-1);if(e.key==='ArrowRight'||e.key==='d')moveLane(1);if(e.key==='ArrowUp'||e.key==='w'||e.key===' ')jump();if(e.key==='ArrowDown'||e.key==='s')slide();});
+
+const clock=new THREE.Clock();
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+
+function loop(){
+ requestAnimationFrame(loop);
+ const dt=Math.min(clock.getDelta(),.033);
+ if(running){
+   speed=Math.min(.95,speed+dt*.006);distance+=speed;
+   score+=speed*2;
+   spawnT-=dt;coinT-=dt;
+   if(spawnT<=0){spawnObstacle();spawnT=Math.max(.45,1.1-speed*.55);}
+   if(coinT<=0){spawnCoin();coinT=.42;}
+   player.vy-=.012;player.y+=player.vy; if(player.y<1){player.y=1;player.vy=0;}
+   player.slide=Math.max(0,player.slide-dt);
+
+   playerGroup.position.x += (lanes[player.lane]-playerGroup.position.x)*.18;
+   playerGroup.position.y = player.y-1;
+   playerGroup.scale.y=player.slide>0?.55:1;
+
+   for(let i=obstacles.length-1;i>=0;i--){
+     const o=obstacles[i];o.position.z+=speed;
+     if(o.position.z>10){scene.remove(o);obstacles.splice(i,1);continue;}
+     const hitZ=Math.abs(o.position.z)<1.4;
+     const hitX=Math.abs(o.position.x-playerGroup.position.x)<1.15;
+     const safeJump=player.y>1.9 && o.userData.type==='block';
+     if(hitZ&&hitX&&!safeJump&&player.slide<=0)gameOver();
+   }
+   for(let i=coinObjs.length-1;i>=0;i--){
+     const c=coinObjs[i];c.position.z+=speed;c.rotation.z+=.12;
+     if(c.position.z>8){scene.remove(c);coinObjs.splice(i,1);continue;}
+     if(Math.abs(c.position.z)<1.2&&Math.abs(c.position.x-playerGroup.position.x)<1.0&&Math.abs(c.position.y-player.y)<1.1){
+       coins++;score+=25;scene.remove(c);coinObjs.splice(i,1);
+     }
+   }
+   document.querySelector('#score').textContent='Score: '+Math.floor(score);
+   document.querySelector('#coins').textContent='Coins: '+coins;
+ }
+ camera.position.x += (playerGroup.position.x*.28-camera.position.x)*.06;
+ camera.lookAt(playerGroup.position.x*.12,1.35,-18);
+ renderer.render(scene,camera);
+}
+loop();
+</script>
+</body>
+</html>
