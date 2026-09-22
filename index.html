@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tasdik Rummy Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">T<span>R</span></div>
+  <div class="brand">Tasdik Rummy<small>Virtual Demo</small></div>
+  <div class="coins">🪙 <b id="coins">1000</b> <button onclick="addCoins()">+</button></div>
+  <button class="menu" onclick="show('settings')">☰</button>
+</header>
+
+<section id="home" class="page active">
+  <div class="hero">
+    <div><small>WELCOME</small><h1>Play & Practice</h1>
+    <p>Mobile-first casino-style interface using virtual coins only.</p>
+    <button onclick="game('dragon')">PLAY DRAGON VS TIGER</button></div>
+    <div class="animals">🐉<b>VS</b>🐯</div>
+  </div>
+  <h2>Popular Games</h2>
+  <div class="games">
+    <article onclick="game('dragon')"><div class="art dragon">🐉 VS 🐯</div><b>Dragon VS Tiger</b><button>Play Now</button></article>
+    <article onclick="game('slots')"><div class="art slots">🎰 777</div><b>777 Slots</b><button>Play</button></article>
+    <article onclick="game('wheel')"><div class="art wheel">🎡</div><b>Lucky Wheel</b><button>Spin</button></article>
+    <article onclick="game('ludo')"><div class="art ludo">🎲</div><b>Ludo</b><button>Play</button></article>
+  </div>
+</section>
+
+<section id="refer" class="page">
+ <div class="tabs"><b>LEADER BOARD</b><b>REFER RULES</b><b>MY REWARDS</b><b>MY REFERRALS</b></div>
+ <div class="tree"><strong>YOU</strong><div>A1　 A2</div><div class="red">B1　 B2　 B3　 B4</div><div class="blue">C1 C2 C3 C4 C5 C6 C7 C8</div></div>
+ <div class="panel"><h2>Share your referral link</h2><input id="ref" value="https://example.com/?ref=TASDIK123" readonly><button onclick="copyRef()">COPY</button><p>Share your referral link & start earning virtual demo points.</p></div>
+</section>
+
+<section id="events" class="page">
+ <div class="tabs"><b>PROMO</b><b>LOGIN</b><b>CASHBACK</b><b>TASK</b></div>
+ <div class="promo">🎁 DOUBLE VIRTUAL REWARDS</div>
+ <div class="panel"><h2>VIP DAY</h2><p>Visual demo reward page.</p><button onclick="bonus(50)">CLAIM DEMO BONUS</button></div>
+ <div class="panel"><h2>FIRST BONUS</h2><p>Practice with virtual coins.</p><button onclick="bonus(30)">CLAIM</button></div>
+ <div class="panel"><h2>CASHBACK DEMO</h2><p>No real cash or withdrawals are processed.</p></div>
+</section>
+
+<section id="profile" class="page">
+ <div class="profile panel"><div class="avatar">T</div><h1>Tasdik</h1><p>Demo Player</p><p>UID: TSK10001</p><h2>🪙 <span id="pc">1000</span></h2><button onclick="info('Verification is not connected in this demo.')">VERIFY NOW</button></div>
+</section>
+
+<section id="settings" class="page">
+ <div class="panel settings"><h1>SETTINGS</h1><label>Language<select><option>English</option><option>Hindi</option></select></label><label>Music <input type="checkbox" checked></label><label>Sound <input type="checkbox" checked></label><button>Safe Center</button><button>Inactive Games</button><button>About Us</button><p>Demo only. No real-money deposits, withdrawals, betting or cash prizes.</p></div>
+</section>
+
+<nav>
+ <button onclick="show('home')">🏦<small>Bank</small></button>
+ <button onclick="game('slots')">🎰<small>Game</small></button>
+ <button onclick="game('wheel')">🎡<small>Lucky Wheel</small></button>
+ <button onclick="show('refer')">🪙<small>Refer & Earn</small></button>
+ <button onclick="show('events')">🎁<small>Events</small></button>
+</nav>
+</div>
+
+<div id="modal" class="modal"><div class="modalbox"><button class="x" onclick="closeModal()">×</button><h1 id="mt"></h1><div id="game"></div></div></div>
+<script src="app.js"></script>
+</body>
+</html>
