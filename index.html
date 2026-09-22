@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>JAIHO TASDIK — Virtual Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="splash">
+  <div class="splash-glow"></div>
+  <div class="logo3d"><span>JAIHO</span><strong>TASDIK</strong></div>
+  <div class="splash-sub">PLAY • PRACTICE • HAVE FUN</div>
+  <div class="loader"><div id="loadbar"></div></div>
+  <div id="loadtext">5%</div>
+  <small>VIRTUAL COINS ONLY</small>
+</div>
+
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="profile" onclick="openModal('profileModal')">
+      <div class="avatar">T</div><div class="vip">VIP<br><b>1</b></div>
+    </div>
+    <div class="balance"><span>🪙</span><b id="balance">850</b><button onclick="addCoins()">＋</button></div>
+    <button class="icon" onclick="openModal('messagesModal')">✉️<i>1</i></button>
+    <button class="icon" onclick="openModal('settingsModal')">☰</button>
+  </header>
+
+  <div class="category">
+    <button>♡</button><button>🎰<small>777<br>SLOTS</small></button><button>🚀</button>
+    <button>🐉</button><button class="active">🪙</button><button>🂡</button>
+  </div>
+
+  <main>
+    <section class="jackpot panel">
+      <div>
+        <h1>JACKPOT LOTTO <span>▮▮ LIVE</span></h1>
+        <h3>Current Jackpot</h3>
+        <div class="money">₹3,154</div>
+        <p>◷ Draw In: <b id="timer">23:54:11</b></p>
+        <p>🎟 My Lotto Tickets: <b>0/100</b></p>
+        <p class="fair">🛡 Random &amp; Provably Fair</p>
+      </div>
+      <div class="slot-art">🎰<small>JACKPOT</small></div>
+      <button class="goldbtn" onclick="demoMessage('Jackpot is a virtual demo.')">View Jackpot</button>
+    </section>
+
+    <section class="promo panel">
+      <div class="promo-text">
+        <b>JAIHO<br>TASDIK</b>
+        <strong>WEEKLY / MONTHLY<br>DAILY REWARDS</strong>
+        <em>NON-STOP</em>
+      </div>
+      <div class="dragon">🐉</div>
+      <div class="offer">BEST OFFER<br><b>UP TO 50% OFF</b></div>
+    </section>
+
+    <section class="road panel">
+      <h2>CHICKEN ROAD</h2>
+      <div class="roadway">
+        <div class="barrier">🚧</div>
+        <div class="chicken">🐔</div>
+        <div class="mult">78.62x</div><div class="mult">156.23x</div><div class="mult">286.36x</div>
+      </div>
+      <button class="playbtn" onclick="playChicken()">PLAY DEMO</button>
+    </section>
+
+    <h2 class="section-title">🔥 HOT GAMES</h2>
+    <section class="games">
+      <article class="game"><div class="gamepic chickenpic">🐔</div><h3>Chicken Road</h3><button onclick="playChicken()">Play</button></article>
+      <article class="game"><div class="gamepic dragonpic">🐉 🐯</div><h3>Dragon VS Tiger</h3><button onclick="demoMessage('Dragon VS Tiger demo opened.')">Play</button></article>
+      <article class="game"><div class="gamepic ludo">🎲</div><h3>Ludo</h3><button onclick="demoMessage('Ludo demo opened.')">Play</button></article>
+      <article class="game"><div class="gamepic slots">7️⃣7️⃣7️⃣</div><h3>777 Slots</h3><button onclick="demoMessage('777 Slots demo opened.')">Play</button></article>
+    </section>
+  </main>
+
+  <nav class="bottom">
+    <button onclick="demoMessage('Bank — virtual balance only.')">🏦<span>Bank</span></button>
+    <button class="selected" onclick="scrollTo({top:0,behavior:'smooth'})">🎰<span>Game</span></button>
+    <button onclick="demoMessage('Lucky Wheel demo')">🎡<span>Lucky Wheel</span></button>
+    <button onclick="demoMessage('Referral demo')">🪙<span>Refer &amp; Earn</span></button>
+    <button onclick="openModal('eventsModal')">🎁<span>Events</span><i>1</i></button>
+  </nav>
+</div>
+
+<div class="modal" id="profileModal"><div class="modalbox"><button class="close" onclick="closeModal('profileModal')">×</button><div class="bigavatar">T</div><h2>Tasdik</h2><p>VIP 1 • Virtual Player</p><p>Balance: <b id="profileBalance">850</b> coins</p></div></div>
+<div class="modal" id="messagesModal"><div class="modalbox"><button class="close" onclick="closeModal('messagesModal')">×</button><h2>Messages</h2><p>🎁 Welcome to JAIHO TASDIK!</p><p>All balances and rewards are virtual.</p></div></div>
+<div class="modal" id="eventsModal"><div class="modalbox"><button class="close" onclick="closeModal('eventsModal')">×</button><h2>🎁 Events</h2><div class="event">Daily Login Bonus <b>+50</b></div><div class="event">Lucky Wheel Demo <b>Try</b></div><div class="event">Weekly Reward <b>+100</b></div></div></div>
+<div class="modal" id="settingsModal"><div class="modalbox"><button class="close" onclick="closeModal('settingsModal')">×</button><h2>⚙️ Settings</h2><label>🔊 Sound <input type="checkbox" checked></label><label>🎵 Music <input type="checkbox" checked></label><p>Language: English</p><p>Version: 1.0 Demo</p></div></div>
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
